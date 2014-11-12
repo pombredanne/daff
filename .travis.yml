@@ -3,8 +3,10 @@ language: node_js
 node_js: "0.11"
 
 env: 
-  - USE_PAULFITZ=true PATH=$PWD/haxerb/bin:$PATH HAXE_STD_PATH=$PWD/haxerb/lib/haxe/std:$PWD/haxerb/lib/haxe/extra/haxelib_src/src
-  - USE_PAULFITZ=false
+  - USE_OPTIONS=false USE_PAULFITZ=true PATH=$PWD/haxerb/bin:$PATH HAXE_STD_PATH=$PWD/haxerb/lib/haxe/std:$PWD/haxerb/lib/haxe/extra/haxelib_src/src
+  - USE_OPTIONS=false USE_PAULFITZ=false
+  - USE_OPTIONS=true USE_PAULFITZ=true PATH=$PWD/haxerb/bin:$PATH HAXE_STD_PATH=$PWD/haxerb/lib/haxe/std:$PWD/haxerb/lib/haxe/extra/haxelib_src/src
+  - USE_OPTIONS=true USE_PAULFITZ=false
 
 # Install Haxe before running the test.
 before_install:
@@ -27,6 +29,7 @@ install:
   - if ! $USE_PAULFITZ; then haxelib install hxjava; fi
   - if ! $USE_PAULFITZ; then haxelib install hxcs; fi
   - npm install
+  - if $USE_OPTIONS; then npm install --optional; fi
 
 script:
   - make test
